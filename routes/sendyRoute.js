@@ -18,49 +18,49 @@ let emailLGL = process.env.LGL_EMAIL;
 // const postmanMail = "postman.test@mail.com";
 
 // active count route TEST WTHOUT SENDY-API PACKAGE, WITH CLASSIC AXIOS POST (CAN BE USED WITH ALL OTHER METHODS USiNG SENDY-API PACKAGE)
-router.post('/countActive', async (req, res) => {
-    // sendy.countActive({ list_id: list_id_lgl }, function (err, result) {
-    //     if (err) {
-    //         console.log(err.toString());
-    //         res.status(404).json(err.toString())
-    //     }
-    //     else {
-    //         console.log('Active subscribers: ' + result);
-    //         // res.status(200).json('Active subscribers: ' + result)
-    //     }
-    // });
-    // let { Name, Email, Description, Type, Siret, Telephone, Adresse, Horaires } = req.body;
-    // let paramsToSubscribe = {
-    //     email: Email,
-    //     name: Name,
-    //     'Name': Name,
-    //     'Email': Email,
-    //     'Description': Description,
-    //     'Type': Type,
-    //     'Siret': Siret,
-    //     'Telephone': Telephone,
-    //     'Adresse': Adresse,
-    //     'Horaires': Horaires,
-    //     list_id: list_id_lgl,
-    //     api_key: api_key
-    // };
-    // console.log(paramsToSubscribe);
-    // console.log(JSON.parse(Horaires));
+// router.post('/countActive', async (req, res) => {
+//     // sendy.countActive({ list_id: list_id_lgl }, function (err, result) {
+//     //     if (err) {
+//     //         console.log(err.toString());
+//     //         res.status(404).json(err.toString())
+//     //     }
+//     //     else {
+//     //         console.log('Active subscribers: ' + result);
+//     //         // res.status(200).json('Active subscribers: ' + result)
+//     //     }
+//     // });
+//     // let { Name, Email, Description, Type, Siret, Telephone, Adresse, Horaires } = req.body;
+//     // let paramsToSubscribe = {
+//     //     email: Email,
+//     //     name: Name,
+//     //     'Name': Name,
+//     //     'Email': Email,
+//     //     'Description': Description,
+//     //     'Type': Type,
+//     //     'Siret': Siret,
+//     //     'Telephone': Telephone,
+//     //     'Adresse': Adresse,
+//     //     'Horaires': Horaires,
+//     //     list_id: list_id_lgl,
+//     //     api_key: api_key
+//     // };
+//     // console.log(paramsToSubscribe);
+//     // console.log(JSON.parse(Horaires));
 
-    let paramsForAxiosTest = { 
-        'api_key': api_key,
-        'email': emailLGL,
-        'list_id': list_id_lgl,
-    }
-    const dataToSend = qs.stringify(paramsForAxiosTest);
-    // console.log(dataToSend);
+//     let paramsForAxiosTest = { 
+//         'api_key': api_key,
+//         'email': emailLGL,
+//         'list_id': list_id_lgl,
+//     }
+//     const dataToSend = qs.stringify(paramsForAxiosTest);
+//     // console.log(dataToSend);
 
-    axios.post(`${SENDY_URL}api/subscribers/subscription-status.php`, dataToSend, { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }).then(res => {
-        console.log('Response SENDY WITH AXIOS CLASSIC POST IS ======>>>>>> ', res.data);
-    }).catch(err => { 
-        console.log('ERROR SENDY WITH AXIOS IS >>>>>>>>>>>>', err); 
-    })
-})
+//     axios.post(`${SENDY_URL}api/subscribers/subscription-status.php`, dataToSend, { headers: { 'Content-type': 'application/x-www-form-urlencoded' } }).then(res => {
+//         console.log('Response SENDY WITH AXIOS CLASSIC POST IS ======>>>>>> ', res.data);
+//     }).catch(err => { 
+//         console.log('ERROR SENDY WITH AXIOS IS >>>>>>>>>>>>', err);  
+//     })
+// })
  
 // GET STATUS OF EMAIL IN LIST (for test)
 // router.post('/getStatus', async (req, res) => {n
@@ -117,6 +117,9 @@ router.post('/subscribe', async (req, res) => {
     //     api_key: api_key
     // }
 
+    if (!Name || !Email || !Siret) {
+        return res.status(404).json({ message: `Certains champs obligatoires manquent ` })
+    }
     try {
         // await sendy.subscribe(paramsToSubscribe, function (err, result) {
         //     if (err) {
@@ -147,6 +150,7 @@ router.post('/subscribe', async (req, res) => {
         //     }
         // });
 
+        // return res.status(200).json({ message: ` Subscribed succesfully`, sendy_response: `${true}` }); // Pour des tests, a retirer !!!
         await sendy.subscribe(paramsToSubscribe, function (err, result) {
             if (err) {
                 console.log(`ERROR_OF_SUBSCRIBE ${paramsToSubscribe.email}==>>`, err.toString());
@@ -161,4 +165,4 @@ router.post('/subscribe', async (req, res) => {
     }
 })
 
-module.exports = router
+module.exports = router 
