@@ -13,11 +13,12 @@ const list_id_lgl = process.env.LIST_ID_LGL;
 const list_id_pro = process.env.LIST_ID_PRO;
 let emailLGL = process.env.LGL_EMAIL;
 
+
+// NB : LAISSER EN COMMENTAIRE, CES METHODES ONT ETE UTLILISEES POUR LES TEST DES AUTRES METHODES DU PACKAGE SENDY-API QU'ON A PAS UTILISE (SAUF CELLE DE SUBSCRIBE QU'ON UTILISE), 
 // const emailTest = 'jesuisdanslaliste@gmail.com';
 // const mailOmar = 'boudraa.omar@gmail.com';
-// const postmanMail = "postman.test@mail.com";
 
-// active count route TEST WTHOUT SENDY-API PACKAGE, WITH CLASSIC AXIOS POST (CAN BE USED WITH ALL OTHER METHODS USiNG SENDY-API PACKAGE)
+// active count route POUR TESTER SANS PASSER PAR SENDY-API PACKAGE (NPM), AVEC AXIOS POST (CLASSIQUE A PARTIR DE LA LIGNE 49) 
 // router.post('/countActive', async (req, res) => {
 //     // sendy.countActive({ list_id: list_id_lgl }, function (err, result) {
 //     //     if (err) {
@@ -62,7 +63,7 @@ let emailLGL = process.env.LGL_EMAIL;
 //     })
 // })
  
-// GET STATUS OF EMAIL IN LIST (for test)
+// GET STATUS OF EMAIL IN LIST (for test) NE PAS DECOMMENTER !!!! (POUR DES TESTS)
 // router.post('/getStatus', async (req, res) => {n
 //     console.log('Body_Request_is =======>>>>>>>>>>>> ', req.body);
 //     try {
@@ -101,56 +102,10 @@ router.post('/subscribe', async (req, res) => {
         api_key: api_key
     };
 
-    // console.log(paramsToSubscribe);
-
-    // let paramsForLGLList = {
-    //     email: Email,
-    //     'Name': Name,
-    //     'Email': Email,
-    //     'Description': Description,
-    //     'Type': Type,
-    //     'Siret': Siret,
-    //     'Telephone': Telephone,
-    //     'Adresse': Adresse,
-    //     'Horaires': Horaires,
-    //     list_id: list_id_lgl,
-    //     api_key: api_key
-    // }
-
     if (!Name || !Email || !Siret) {
         return res.status(404).json({ message: `Certains champs obligatoires manquent ` })
     }
     try {
-        // await sendy.subscribe(paramsToSubscribe, function (err, result) {
-        //     if (err) {
-        //         console.log(`ERROR_OF_SUBSCRIBE ${paramsToSubscribe.email}==>>`, err.toString());
-        //         return res.status(404).json({ message: `${err.toString()}`, email: `${paramsToSubscribe.email}` })
-        //     } else {
-        //         console.log(`SUCCESS_FOR_SUBSCRIBE ${paramsToSubscribe.email} ==>> Subscribed succesfully`);
-        //         return res.status(200).json({ message: `${paramsToSubscribe.email} Subscribed succesfully`, sendy_response: `${result}` });
-        //         return res.status(200).json({ message: 'test ok Subscribed succesfully' });
-        //         sendy.unsubscribe({ email: emailLGL, list_id: list_id_lgl }, function (err, result) {
-        //             if (err) {
-        //                 console.log(`unsubscribe err of ${emailLGL} =>`, err.toString());
-        //             } else {
-        //                 console.log(`${emailLGL} Unsubscribed succesfully`);
-        //                 setTimeout(() => {
-        //                     sendy.subscribe(paramsForLGLList, function (err, result) {
-        //                         if (err) {
-        //                             console.log('ERROR_OF_SUBSCRIBE==>>', err.toString());
-        //                             return res.status(404).json({ message: `${err.toString()} ` })
-        //                         } else {
-        //                             console.log(`SUCCESS_FOR_SUBSCRIBE ${paramsForLGLList.email} ==>> Subscribed succesfully`);
-        //                             return res.status(200).json({ message: `${paramsToSubscribe.email} Subscribed succesfully`, sendy_response: `${result}` });
-        //                         }
-        //                     });
-        //                 }, 200); 
-        //             }
-        //         }); 
-        //     }
-        // });
-
-        // return res.status(200).json({ message: ` Subscribed succesfully`, sendy_response: `${true}` }); // Pour des tests, a retirer !!!
         await sendy.subscribe(paramsToSubscribe, function (err, result) {
             if (err) {
                 console.log(`ERROR_OF_SUBSCRIBE ${paramsToSubscribe.email}==>>`, err.toString());
